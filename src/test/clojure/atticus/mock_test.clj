@@ -109,18 +109,16 @@
 (defprotocol Squared 
   (square [impl x]))
 
-(deftest mock-protocol-test
+#_(deftest mock-protocol-test
   (expects
-   [(mock-protocol instance
-		   Squared
-		   (square [impl y] (once (* y y))))]
+   [(instance Squared
+	      (square [impl y] (once (* y y))))]
    (is (= 9 (square instance 3)))))
 
-(deftest mock-protocol-3-times-test
+#_(deftest mock-protocol-3-times-test
   (expects
-   [(mock-protocol instance
-		   Squared
-		   (square [impl y] (times 3 (* y y))))]
+   [(instance Squared
+	      (square [impl y] (times 3 (* y y))))]
    (is (= 9 (square instance 3)))
    (is (= 16 (square instance 4)))
    (is (= 25 (square instance 5)))))

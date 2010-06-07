@@ -73,13 +73,11 @@ lambda.
     `(~(first (first body)) ~v ~args ~@body)
     `(fn ~args ~@body)))
 
-(defn mock-protocol [instance-name extend-type protocol & specs])
-
 (defn extract-functions [mock-proto]
-  (subvec (vec mock-proto) 3))
+  (subvec (vec mock-proto) 2))
 
 (defn protocol-mock? [spec]
-  (= (symbol "mock-protocol") (first spec)))
+  (not (vector? (second spec))))
 
 (defn protocol-function-map [function-map spec]
   (assoc function-map (-> spec
@@ -90,7 +88,7 @@ lambda.
 (declare construct-bindings)
 
 (defn add-mock
-  "Add a mock to the bindingsn."
+  "Add a mock to the bindings."
   [mocks mock]
   (if (protocol-mock? mock)
     (concat mocks (construct-bindings (extract-functions mock)))
@@ -113,8 +111,9 @@ lambda.
 	      (map #(first (fns %)) (filter even? (range 0 (count fns)))))))
 
 (defn- create-protocol-pairs [v mock]
-  (concat v [(nth mock 1)
-	     (create-protocol-impl (nth mock 2) (nth mock 3) (extract-functions mock))]))
+  (println (nth mock 0))
+  (concat v [(nth mock 0)
+	     (create-protocol-impl nil (nth mock 1) (extract-functions mock))]))
 (defn construct-protocol-bindings [mocks]
   (->> mocks
        (filter protocol-mock?)
