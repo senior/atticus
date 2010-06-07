@@ -111,7 +111,6 @@ lambda.
 	      (map #(first (fns %)) (filter even? (range 0 (count fns)))))))
 
 (defn- create-protocol-pairs [v mock]
-  (println (nth mock 0))
   (concat v [(nth mock 0)
 	     (create-protocol-impl nil (nth mock 1) (extract-functions mock))]))
 (defn construct-protocol-bindings [mocks]
